@@ -1,11 +1,13 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../../firebase";
 import "./Login.css";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   // const { setToken } = auth();
 
   const handleEmailChange = (e) => {
@@ -41,6 +43,7 @@ function Login() {
       setEmail("");
       setPassword("");
     }
+    navigate("/");
   };
 
   return (
@@ -66,6 +69,10 @@ function Login() {
         />
       </div>
       <button type="submit">Login</button>
+
+      <div className="forgot-password">
+        <Link to="/forgotpassword">Forgot Password?</Link>
+      </div>
     </form>
   );
 }
