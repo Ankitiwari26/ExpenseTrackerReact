@@ -32,6 +32,7 @@ function Login() {
         password
       );
       const token = userCredentials.user.getIdToken();
+
       console.log(token);
       // setToken(token);
       console.log("User loggedin in successfully", userCredentials, token);
@@ -43,7 +44,7 @@ function Login() {
       setEmail("");
       setPassword("");
     }
-    navigate("/");
+    navigate("/main");
   };
 
   return (

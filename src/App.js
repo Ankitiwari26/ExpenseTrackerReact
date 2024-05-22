@@ -13,8 +13,8 @@ function App() {
         <div className="App">
           {/* <h2>Expense Tracker</h2> */}
           <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
           </Routes>
