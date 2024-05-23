@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import UpdateProfileModal from "./UpdateProfileModal";
 import Logout from "./Logout";
+import ExpenseForm from "./ExpenseForm";
 const Main = () => {
   const [show, setShow] = useState(false);
 
@@ -15,6 +16,7 @@ const Main = () => {
       <div>
         <label>Your Profile is incomplete</label>
         <Button onClick={handleShow}>Update Profile</Button>
+        <ExpenseForm />
       </div>
       <UpdateProfileModal show={show} handleClose={handleClose} />
     </div>
