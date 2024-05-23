@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import UpdateProfileModal from "./UpdateProfileModal";
+import Logout from "./Logout";
 const Main = () => {
   const [show, setShow] = useState(false);
 
@@ -9,6 +10,7 @@ const Main = () => {
 
   return (
     <div>
+      <Logout />
       <h2>Welcome to Expence Tracker</h2>
       <div>
         <label>Your Profile is incomplete</label>

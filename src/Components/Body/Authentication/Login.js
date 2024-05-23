@@ -44,7 +44,7 @@ function Login() {
       setEmail("");
       setPassword("");
     }
-    navigate("/main");
+    navigate("/verifyemail");
   };
 
   return (

@@ -5,6 +5,7 @@ import Login from "./Components/Body/Authentication/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ForgotPassword from "./Components/Body/Authentication/ForgotPasswod";
 import Main from "./Components/Body/Main";
+import VerifyEmail from "./Components/Body/Authentication/VerifyEmail";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/verifyemail" element={<VerifyEmail />} />
           </Routes>
         </div>
       </Router>
