@@ -4,8 +4,11 @@ import SignUp from "./Components/Body/Authentication/SignUp";
 import Login from "./Components/Body/Authentication/Login";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ForgotPassword from "./Components/Body/Authentication/ForgotPasswod";
-import Main from "./Components/Body/Main";
+import Home from "./Components/Body/Home";
 import VerifyEmail from "./Components/Body/Authentication/VerifyEmail";
+import Protected from "./Components/Protected";
+import ExpenseForm from "./Components/Body/ExpenseForm";
+import Header from "./Components/Header/Header";
 
 function App() {
   return (
@@ -13,11 +16,19 @@ function App() {
       <Router>
         <div className="App">
           {/* <h2>Expense Tracker</h2> */}
+          <Header />
           <Routes>
-            <Route path="/main" element={<Main />} />
-            <Route path="/" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/" element={<Login />} />
+            <Route
+              path="expenceform"
+              element={
+                <Protected>
+                  <ExpenseForm />
+                </Protected>
+              }
+            />
             <Route path="/verifyemail" element={<VerifyEmail />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
           </Routes>

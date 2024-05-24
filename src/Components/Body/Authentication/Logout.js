@@ -1,5 +1,7 @@
 import { getAuth, signOut } from "firebase/auth";
-import { Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Button, Nav } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
   const handleLogout = async () => {
@@ -9,9 +11,11 @@ const Logout = () => {
     console.log("User SignOut");
     localStorage.removeItem("token");
   };
+
   return (
     <div>
-      <Button onClick={handleLogout}>Logout</Button>
+      {/* <Button onClick={handleLogout}>Logout</Button> */}
+      <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
     </div>
   );
 };

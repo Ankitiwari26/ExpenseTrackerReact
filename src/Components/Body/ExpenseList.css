@@ -1,0 +1,40 @@
+.expense-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .expense-list-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px 0;
+    padding: 10px 15px;
+    transition: background 0.3s ease;
+  }
+  
+  .expense-list-item:hover {
+    background: #f1f1f1;
+  }
+  
+  .expense-list-item span {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .expense-list-item span:last-child {
+    margin-bottom: 0;
+  }
+  
+  .expense-list-item .amount {
+    font-weight: bold;
+  }
+  
+  .expense-list-item .description {
+    font-style: italic;
+    color: #555;
+  }
+  
+  .expense-list-item .category {
+    color: #777;
+  }
+  

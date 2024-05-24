@@ -38,13 +38,13 @@ function Login() {
       console.log("User loggedin in successfully", userCredentials, token);
 
       localStorage.setItem("token", token);
+      navigate("/verifyemail");
     } catch (error) {
-      alert("Please Enter Valid Email and Password");
+      alert("PLease check email and passeord or Create an account if not have");
     } finally {
       setEmail("");
       setPassword("");
     }
-    navigate("/verifyemail");
   };
 
   return (
@@ -71,8 +71,9 @@ function Login() {
       </div>
       <button type="submit">Login</button>
 
-      <div className="forgot-password">
+      <div className="signup-password">
         <Link to="/forgotpassword">Forgot Password?</Link>
+        <Link to="/signup">SignUp</Link>
       </div>
     </form>
   );

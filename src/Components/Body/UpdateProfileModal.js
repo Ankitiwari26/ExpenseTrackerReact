@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { getAuth, updateProfile } from "firebase/auth";
+import "./UpdateProfileModal.css"; // Import the CSS file
 
 function UpdateProfileModal({ show, handleClose }) {
   const [name, setName] = useState("");
@@ -15,20 +16,6 @@ function UpdateProfileModal({ show, handleClose }) {
   const handlePhotoURLChange = (e) => {
     setPhotoURL(e.target.value);
   };
-
-  // const verifyEmail = async () => {
-  //   const idToken = await user.getIdToken(true);
-  //   await fetch(
-  //     `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDwLC6MnNKHXySAzDS9JLzCjVpcWG01AA8`
-  //   ),
-  //     {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         requestType: "VERIFY_EMAIL",
-  //         idToken: idToken,
-  //       }),
-  //     };
-  // };
 
   const fetchUserData = async () => {
     const auth = getAuth();
@@ -74,15 +61,12 @@ function UpdateProfileModal({ show, handleClose }) {
       console.log("User Profile Updated Successfully");
     } catch (error) {
       console.log(error);
+      alert("Please Login to Update Profile");
     } finally {
       setName("");
       setPhotoURL("");
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>

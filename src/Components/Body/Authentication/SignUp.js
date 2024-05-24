@@ -98,7 +98,7 @@ function SignUp() {
       </Button>
       <span className="">
         Already have an account?{" "}
-        <Link to="/login" className="sign-in-link">
+        <Link to="/" className="sign-in-link">
           Login
         </Link>
       </span>

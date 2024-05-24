@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
   const [email, setEmail] = useState("");
   const [verify, setVerify] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -13,6 +14,7 @@ const VerifyEmail = () => {
 
   const handleVerification = async (e) => {
     e.preventDefault(); // Prevent form submission default behavior
+    setLoading(true); // Set loading state to true
     const auth = getAuth();
     const user = auth.currentUser;
     try {
@@ -40,25 +42,34 @@ const VerifyEmail = () => {
       setVerify(true);
     } catch (error) {
       console.error("Error sending verification email:", error);
+    } finally {
+      setLoading(false); // Set loading state to false
     }
   };
-  if (verify === true) {
-    navigate("/main");
-  }
+
+  useEffect(() => {
+    if (verify === true) {
+      navigate("/home");
+    }
+  }, [verify, navigate]);
 
   return (
     <div>
-      <form onSubmit={handleVerification}>
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleEmailChange}
-          required
-        />
-        <button type="submit">Verify</button>
-      </form>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <form onSubmit={handleVerification}>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={handleEmailChange}
+            required
+          />
+          <button type="submit">Verify</button>
+        </form>
+      )}
     </div>
   );
 };
