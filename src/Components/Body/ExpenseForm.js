@@ -22,7 +22,7 @@ const ExpenseForm = ({ addExpense }) => {
 
   return (
     <div className="expense-form-container">
-      <h2> Add Your Expense Here!!!!!</h2>
+      <h2>Add Your Expense Here!!!!!</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formAmount">
           <Form.Label>Amount</Form.Label>
