@@ -1,14 +1,14 @@
-// src/store/index.js
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 // Auth slice
+const initialAuthState = {
+  isLoggedIn: false,
+  token: null,
+  userId: null,
+};
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    isLoggedIn: false,
-    token: null,
-    userId: null,
-  },
+  initialState: initialAuthState,
   reducers: {
     login(state, action) {
       state.isLoggedIn = true;
@@ -69,13 +69,30 @@ const expensesSlice = createSlice({
 
 export const { setExpenses, addExpense, editExpense, deleteExpense } =
   expensesSlice.actions;
+export const selectTotalAmount = (state) => state.expenses.totalAmount;
 const expensesReducer = expensesSlice.reducer;
+
+const themeSlice = createSlice({
+  name: "theme",
+  initialState: {
+    isDarkTheme: false,
+  },
+  reducers: {
+    toggleTheme(state) {
+      state.isDarkTheme = !state.isDarkTheme;
+    },
+  },
+});
+
+export const { toggleTheme } = themeSlice.actions;
+const themeReducer = themeSlice.reducer;
 
 // Configure the store
 const store = configureStore({
   reducer: {
     auth: authReducer,
     expenses: expensesReducer,
+    theme: themeReducer,
   },
 });
 

@@ -13,8 +13,8 @@ const VerifyEmail = () => {
   };
 
   const handleVerification = async (e) => {
-    e.preventDefault(); // Prevent form submission default behavior
-    setLoading(true); // Set loading state to true
+    e.preventDefault();
+    setLoading(true);
     const auth = getAuth();
     const user = auth.currentUser;
     try {
@@ -43,7 +43,7 @@ const VerifyEmail = () => {
     } catch (error) {
       console.error("Error sending verification email:", error);
     } finally {
-      setLoading(false); // Set loading state to false
+      setLoading(false);
     }
   };
 

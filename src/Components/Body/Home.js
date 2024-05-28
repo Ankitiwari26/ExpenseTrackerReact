@@ -129,100 +129,6 @@
 
 // // export default Home;
 
-// // src/Components/Body/Home.js
-// import React, { useCallback, useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { Button } from "react-bootstrap";
-// import Protected from "../Protected";
-// import ExpenseForm from "./ExpenseForm";
-// import ExpenceList from "./ExpenceList";
-
-// import {
-//   setExpenses,
-//   addExpense,
-//   editExpense,
-//   deleteExpense,
-// } from "../../store/index";
-
-// const Home = () => {
-//   const dispatch = useDispatch();
-//   const expenses = useSelector((state) => state.expenses.list);
-//   const totalAmount = useSelector((state) => state.expenses.totalAmount);
-//   const loading = useSelector((state) => state.expenses.loading);
-
-//   const fetchExpenseData = useCallback(() => {
-//     dispatch({ type: "expenses/loading", payload: true });
-//     fetch(
-//       "https://expencetracker-90de3-default-rtdb.firebaseio.com/expensedata.json"
-//     )
-//       .then((response) => response.json())
-//       .then((data) => {
-//         if (data) {
-//           const transformedExpenses = Object.keys(data).map((key) => ({
-//             id: key,
-//             ...data[key],
-//           }));
-//           dispatch(setExpenses(transformedExpenses));
-//         }
-//         dispatch({ type: "expenses/loading", payload: false });
-//       })
-//       .catch((error) => {
-//         console.log("Something went wrong ....Retrying ", error);
-//         dispatch({ type: "expenses/loading", payload: false });
-//       });
-//   }, [dispatch]);
-
-//   const handleAddExpense = async (expense) => {
-//     dispatch({ type: "expenses/loading", payload: true });
-//     try {
-//       const response = await fetch(
-//         "https://expencetracker-90de3-default-rtdb.firebaseio.com/expensedata.json",
-//         {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//           body: JSON.stringify(expense),
-//         }
-//       );
-//       if (response.ok) {
-//         fetchExpenseData();
-//       }
-//     } catch (error) {
-//       console.log("Error adding expense: ", error);
-//       dispatch({ type: "expenses/loading", payload: false });
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchExpenseData();
-//   }, [fetchExpenseData]);
-
-//   return (
-//     <div>
-//       <h2>Welcome to Expense Tracker</h2>
-//       <Protected>
-//         <ExpenseForm addExpense={handleAddExpense} />
-//         {totalAmount > 10000 && (
-//           <Button variant="warning">Activate Premium</Button>
-//         )}
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : (
-//           <ExpenceList
-//             expenses={expenses}
-//             // onEdit={handleEditExpense}
-//             // onDelete={handleDeleteExpense}
-//           />
-//         )}
-//       </Protected>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-// src/Components/Body/Home.js
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
@@ -234,13 +140,16 @@ import {
   addExpense,
   editExpense,
   deleteExpense,
+  toggleTheme,
 } from "../../store/index";
+import "./Home.css";
 
 const Home = () => {
   const dispatch = useDispatch();
   const expenses = useSelector((state) => state.expenses.list);
   const totalAmount = useSelector((state) => state.expenses.totalAmount);
   const loading = useSelector((state) => state.expenses.loading);
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
   const fetchExpenseData = useCallback(() => {
     dispatch({ type: "expenses/loading", payload: true });
@@ -280,56 +189,32 @@ const Home = () => {
       if (response.ok) {
         fetchExpenseData();
       }
+      dispatch(addExpense());
     } catch (error) {
       console.log("Error adding expense: ", error);
       dispatch({ type: "expenses/loading", payload: false });
     }
   };
 
-  const handleEditExpense = async (expense) => {
-    dispatch({ type: "expenses/loading", payload: true });
-    try {
-      const response = await fetch(
-        `https://expencetracker-90de3-default-rtdb.firebaseio.com/expensedata/${expense.id}.json`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: expense.amount,
-            description: expense.description,
-            category: expense.category,
-          }),
-        }
-      );
-      if (response.ok) {
-        fetchExpenseData();
-      }
-      console.log("Expense edited from the list.");
-    } catch (error) {
-      console.log("Error editing expense: ", error);
-      dispatch({ type: "expenses/loading", payload: false });
-    }
+  const handleActivatePremium = () => {
+    dispatch(toggleTheme());
+    console.log("Activate primium button clicked");
   };
 
-  const handleDeleteExpense = async (expenseId) => {
-    dispatch({ type: "expenses/loading", payload: true });
-    try {
-      const response = await fetch(
-        `https://expencetracker-90de3-default-rtdb.firebaseio.com/expensedata/${expenseId}.json`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (response.ok) {
-        fetchExpenseData();
-      }
-      console.log("Expense deleted from the list.");
-    } catch (error) {
-      console.log("Error deleting expense: ", error);
-      dispatch({ type: "expenses/loading", payload: false });
-    }
+  const handleDownloadCSV = () => {
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      "Amount,Description,Category\n" +
+      expenses
+        .map((exp) => `${exp.amount},${exp.description},${exp.category}`)
+        .join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "expenses.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
@@ -337,22 +222,21 @@ const Home = () => {
   }, [fetchExpenseData]);
 
   return (
-    <div>
+    <div className={isDarkTheme ? "dark-theme" : "light-theme"}>
       <h2>Welcome to Expense Tracker</h2>
       <Protected>
         <ExpenseForm addExpense={handleAddExpense} />
         {totalAmount > 10000 && (
-          <Button variant="warning">Activate Premium</Button>
+          <div>
+            <Button variant="warning" onClick={handleActivatePremium}>
+              Activate Premium
+            </Button>
+            <Button variant="secondary" onClick={handleDownloadCSV}>
+              Download File
+            </Button>
+          </div>
         )}
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <ExpenseList
-            expenses={expenses}
-            onEdit={handleEditExpense}
-            onDelete={handleDeleteExpense}
-          />
-        )}
+        {loading ? <p>Loading...</p> : <ExpenseList expenses={expenses} />}
       </Protected>
     </div>
   );
